@@ -1,0 +1,3 @@
+some:
+	fd --extension go|xargs -I{} goimports -w {}
+	golangci-lint run ./...
