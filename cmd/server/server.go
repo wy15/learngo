@@ -24,6 +24,8 @@ import (
 	"log"
 	"net"
 
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2"
+	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/validator"
 	pb "github.com/wy15/learngo/build/gen/helloworld"
 	"github.com/wy15/learngo/internal/auth"
 	"google.golang.org/grpc"
@@ -49,8 +51,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	auth := &auth.Authentication{Token: "gophers"}
-	s := grpc.NewServer(grpc.Creds(creds), grpc.UnaryInterceptor(auth.Auth))
+	auth := &auth.Authentication{Token: "gopher"}
+	s := grpc.NewServer(grpc.Creds(creds), grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(auth.Auth, grpc_validator.UnaryServerInterceptor())))
 	pb.RegisterGreeterService(s, &pb.GreeterService{SayHello: sayHello})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

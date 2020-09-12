@@ -4,15 +4,23 @@ option go_package = "github.com/wy15/learngo/build/gen/helloworld";
 
 package helloworld;
 
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHello (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      post: "/v1/greeter/sayhello"
+      body: "*"
+    };
+  }
 }
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1;
+  string name = 1 [(validate.rules).string.max_bytes = 15];
 }
 
 // The response message containing the greetings
