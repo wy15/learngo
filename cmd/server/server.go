@@ -36,8 +36,12 @@ const (
 	port = ":50051"
 )
 
+type server struct {
+	pb.UnimplementedGreeterServer
+}
+
 // sayHello implements helloworld.GreeterServer.SayHello
-func sayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	log.Printf("Received: %v", in.GetName())
 	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
@@ -53,7 +57,8 @@ func main() {
 	}
 	auth := &auth.Authentication{Token: "gopher"}
 	s := grpc.NewServer(grpc.Creds(creds), grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(auth.Auth, grpc_validator.UnaryServerInterceptor())))
-	pb.RegisterGreeterService(s, &pb.GreeterService{SayHello: sayHello})
+	// pb.RegisterGreeterService(s, &pb.GreeterService{SayHello: sayHello})
+	pb.RegisterGreeterServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

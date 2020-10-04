@@ -46,7 +46,7 @@ func request_Greeter_SayHello_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-func local_request_Greeter_SayHello_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterService, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Greeter_SayHello_0(ctx context.Context, marshaler runtime.Marshaler, server GreeterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq HelloRequest
 	var metadata runtime.ServerMetadata
 
@@ -67,7 +67,7 @@ func local_request_Greeter_SayHello_0(ctx context.Context, marshaler runtime.Mar
 // UnaryRPC     :call GreeterServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterGreeterHandlerFromEndpoint instead.
-func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, server GreeterService) error {
+func RegisterGreeterHandlerServer(ctx context.Context, mux *runtime.ServeMux, server GreeterServer) error {
 
 	mux.Handle("POST", pattern_Greeter_SayHello_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())

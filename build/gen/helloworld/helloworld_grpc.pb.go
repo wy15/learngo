@@ -4,7 +4,6 @@ package helloworld
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -30,10 +29,6 @@ func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
 	return &greeterClient{cc}
 }
 
-var greeterSayHelloStreamDesc = &grpc.StreamDesc{
-	StreamName: "SayHello",
-}
-
 func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
 	out := new(HelloReply)
 	err := c.cc.Invoke(ctx, "/helloworld.Greeter/SayHello", in, out, opts...)
@@ -43,77 +38,62 @@ func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...
 	return out, nil
 }
 
-// GreeterService is the service API for Greeter service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterGreeterService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type GreeterService struct {
+// GreeterServer is the server API for Greeter service.
+// All implementations must embed UnimplementedGreeterServer
+// for forward compatibility
+type GreeterServer interface {
 	// Sends a greeting
-	SayHello func(context.Context, *HelloRequest) (*HelloReply, error)
+	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	mustEmbedUnimplementedGreeterServer()
 }
 
-func (s *GreeterService) sayHello(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+// UnimplementedGreeterServer must be embedded to have forward compatible implementations.
+type UnimplementedGreeterServer struct {
+}
+
+func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
+
+// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GreeterServer will
+// result in compilation errors.
+type UnsafeGreeterServer interface {
+	mustEmbedUnimplementedGreeterServer()
+}
+
+func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
+	s.RegisterService(&_Greeter_serviceDesc, srv)
+}
+
+func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(HelloRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.SayHello(ctx, in)
+		return srv.(GreeterServer).SayHello(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/helloworld.Greeter/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.SayHello(ctx, req.(*HelloRequest))
+		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegisterGreeterService registers a service implementation with a gRPC server.
-func RegisterGreeterService(s grpc.ServiceRegistrar, srv *GreeterService) {
-	srvCopy := *srv
-	if srvCopy.SayHello == nil {
-		srvCopy.SayHello = func(context.Context, *HelloRequest) (*HelloReply, error) {
-			return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
-		}
-	}
-	sd := grpc.ServiceDesc{
-		ServiceName: "helloworld.Greeter",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "SayHello",
-				Handler:    srvCopy.sayHello,
-			},
+var _Greeter_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "helloworld.Greeter",
+	HandlerType: (*GreeterServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SayHello",
+			Handler:    _Greeter_SayHello_Handler,
 		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "helloworld/helloworld.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewGreeterService creates a new GreeterService containing the
-// implemented methods of the Greeter service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewGreeterService(s interface{}) *GreeterService {
-	ns := &GreeterService{}
-	if h, ok := s.(interface {
-		SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	}); ok {
-		ns.SayHello = h.SayHello
-	}
-	return ns
-}
-
-// UnstableGreeterService is the service API for Greeter service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableGreeterService interface {
-	// Sends a greeting
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "helloworld/helloworld.proto",
 }
