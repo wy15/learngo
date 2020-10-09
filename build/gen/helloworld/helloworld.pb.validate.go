@@ -173,3 +173,380 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = HelloReplyValidationError{}
+
+// Validate checks the field values on Point with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Point) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Latitude
+
+	// no validation rules for Longitude
+
+	return nil
+}
+
+// PointValidationError is the validation error returned by Point.Validate if
+// the designated constraints aren't met.
+type PointValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PointValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PointValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PointValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PointValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PointValidationError) ErrorName() string { return "PointValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PointValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPoint.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PointValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PointValidationError{}
+
+// Validate checks the field values on Rectangle with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Rectangle) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetLo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RectangleValidationError{
+				field:  "Lo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetHi()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RectangleValidationError{
+				field:  "Hi",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// RectangleValidationError is the validation error returned by
+// Rectangle.Validate if the designated constraints aren't met.
+type RectangleValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RectangleValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RectangleValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RectangleValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RectangleValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RectangleValidationError) ErrorName() string { return "RectangleValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RectangleValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRectangle.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RectangleValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RectangleValidationError{}
+
+// Validate checks the field values on Feature with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Feature) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Name
+
+	if v, ok := interface{}(m.GetLocation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return FeatureValidationError{
+				field:  "Location",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// FeatureValidationError is the validation error returned by Feature.Validate
+// if the designated constraints aren't met.
+type FeatureValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FeatureValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FeatureValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FeatureValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FeatureValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FeatureValidationError) ErrorName() string { return "FeatureValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FeatureValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFeature.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FeatureValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FeatureValidationError{}
+
+// Validate checks the field values on RouteNote with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *RouteNote) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetLocation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RouteNoteValidationError{
+				field:  "Location",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Message
+
+	return nil
+}
+
+// RouteNoteValidationError is the validation error returned by
+// RouteNote.Validate if the designated constraints aren't met.
+type RouteNoteValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RouteNoteValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RouteNoteValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RouteNoteValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RouteNoteValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RouteNoteValidationError) ErrorName() string { return "RouteNoteValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RouteNoteValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRouteNote.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RouteNoteValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RouteNoteValidationError{}
+
+// Validate checks the field values on RouteSummary with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *RouteSummary) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for PointCount
+
+	// no validation rules for FeatureCount
+
+	// no validation rules for Distance
+
+	// no validation rules for ElapsedTime
+
+	return nil
+}
+
+// RouteSummaryValidationError is the validation error returned by
+// RouteSummary.Validate if the designated constraints aren't met.
+type RouteSummaryValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RouteSummaryValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RouteSummaryValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RouteSummaryValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RouteSummaryValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RouteSummaryValidationError) ErrorName() string { return "RouteSummaryValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RouteSummaryValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRouteSummary.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RouteSummaryValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RouteSummaryValidationError{}

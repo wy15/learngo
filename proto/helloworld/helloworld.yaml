@@ -1,0 +1,17 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+  - selector: helloworld.Greeter.SayHello
+    post: /v1/greeter/sayhello
+    body: "*"
+  - selector: helloworld.RouteGuide.ListFeatures
+    post: /v1/routeguide/listfeatures
+    body: "*"
+  - selector: helloworld.RouteGuide.RecordRoute
+    post: /v1/routeguide/recordroute
+    body: "*"
+  - selector: helloworld.RouteGuide.RouteChat
+    post: /v1/routeguide/routechat
+    body: "*"

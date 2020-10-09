@@ -10,5 +10,5 @@ gen:
 		--go-grpc_opt=paths=source_relative \
 		--validate_out="lang=go":build/gen \
 		--validate_opt=paths=source_relative \
-		--grpc-gateway_out=logtostderr=true,paths=source_relative:build/gen \
+		--grpc-gateway_out=logtostderr=true,paths=source_relative,grpc_api_configuration=proto/helloworld/helloworld.yaml:build/gen \
 		proto/helloworld/helloworld.proto

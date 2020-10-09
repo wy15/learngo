@@ -21,6 +21,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -37,6 +38,29 @@ const (
 	address     = "127.0.0.1:50051"
 	defaultName = "world"
 )
+
+func printFeatures(client pb.RouteGuideClient, rect *pb.Rectangle) {
+	log.Printf("Looking for features within %v", rect)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	stream, err := client.ListFeatures(ctx, rect)
+	if err != nil {
+		log.Fatalf("%v.ListFeatures(_) = _, %v", client, err)
+	}
+
+	for {
+		feature, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("%v.ListFeatures(_) = _, %v", client, err)
+		}
+
+		log.Println(feature)
+	}
+}
 
 func main() {
 	auth := &auth.Authentication{
@@ -75,4 +99,11 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
+	client := pb.NewRouteGuideClient(conn)
+	// Looking for features between 40, -75 and 42, -73.
+	printFeatures(client, &pb.Rectangle{
+		Lo: &pb.Point{Latitude: 400000000, Longitude: -750000000},
+		Hi: &pb.Point{Latitude: 420000000, Longitude: -730000000},
+	})
+
 }
