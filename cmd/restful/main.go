@@ -8,7 +8,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	gw "github.com/wy15/learngo/build/gen/helloworld"
+	gw "github.com/wy15/learngo/build/gen/proto/helloworld"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

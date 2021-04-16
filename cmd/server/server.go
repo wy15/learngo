@@ -33,7 +33,7 @@ import (
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/validator"
-	pb "github.com/wy15/learngo/build/gen/helloworld"
+	pb "github.com/wy15/learngo/build/gen/proto/helloworld"
 	"github.com/wy15/learngo/internal/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

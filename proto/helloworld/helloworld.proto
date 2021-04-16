@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/wy15/learngo/build/gen/helloworld";
+option go_package = "github.com/wy15/learngo/build/gen/proto/helloworld";
 
 package helloworld;
 

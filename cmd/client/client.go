@@ -27,7 +27,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/wy15/learngo/build/gen/helloworld"
+	pb "github.com/wy15/learngo/build/gen/proto/helloworld"
 	"github.com/wy15/learngo/internal/auth"
 	"google.golang.org/grpc"
 
