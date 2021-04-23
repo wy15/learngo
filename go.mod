@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	cloud.google.com/go v0.81.0 // indirect
-	github.com/envoyproxy/protoc-gen-validate v0.5.1
+	github.com/envoyproxy/protoc-gen-validate v0.6.0
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.0.0-rc.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.3.0
