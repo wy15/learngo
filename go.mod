@@ -13,5 +13,5 @@ require (
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
 	google.golang.org/protobuf v1.28.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	github.com/gogo/protobuf v1.3.2
 )
-require github.com/gogo/protobuf v1.3.2
