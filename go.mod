@@ -8,8 +8,8 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.0.0-rc.2
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.0
-	golang.org/x/oauth2 v0.0.0-20220718184931-c8730f7fcb92
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.1
+	golang.org/x/oauth2 v0.0.0-20220722155238-128564f6959c
 	google.golang.org/grpc v1.48.0
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
 	google.golang.org/protobuf v1.28.1
