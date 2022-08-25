@@ -27,4 +27,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci/golangci-lint-action@v3
