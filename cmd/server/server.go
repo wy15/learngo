@@ -24,7 +24,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	"net"
@@ -185,7 +184,7 @@ func newRouteGuideServer() *routeGuideServer {
 }
 
 func (s *routeGuideServer) loadFeatures(filePath string) {
-	data, err := ioutil.ReadFile(filePath)
+	data, err := io.ReadFile(filePath)
 	if err != nil {
 		log.Fatalf("Failed to load default features: %v", err)
 	}
