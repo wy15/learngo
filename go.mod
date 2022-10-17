@@ -10,7 +10,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.0.0-rc.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094
-	google.golang.org/grpc v1.49.0
+	google.golang.org/grpc v1.50.1
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
 	google.golang.org/protobuf v1.28.1
 
