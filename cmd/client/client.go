@@ -141,7 +141,7 @@ func main() {
 		Token: "gopher",
 	}
 
-	perRPC := oauth.NewOauthAccess(auth.FetchToken())
+	perRPC := oauth.TokenSource{auth.FetchToken()}
 	creds, err := credentials.NewClientTLSFromFile(
 		"tls/rootCA.pem", "",
 	)
